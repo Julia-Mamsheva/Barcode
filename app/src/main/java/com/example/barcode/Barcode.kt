@@ -23,7 +23,7 @@ fun Barcode(uuidUser: String, viewModel:ViewModelBarcode = viewModel()) {
 
     val context = LocalContext.current
     //Запомниаем начальное значение
-    val brightnessState = remember { mutableStateOf(getScreenBrightness(context)) }
+    val brightnessState = remember { mutableStateOf(Settings.System.getInt(context.contentResolver, Settings.System.SCREEN_BRIGHTNESS)) }
 
     DisposableEffect(Unit) {
         //Запускаем увелечение яркости экрана
@@ -47,13 +47,5 @@ fun Barcode(uuidUser: String, viewModel:ViewModelBarcode = viewModel()) {
             type = BarcodeType.CODE_128,
             value = uuidUser
         )
-    }
-}
-// Получаем текущее состояние яркости
-fun getScreenBrightness(context: Context): Int {
-    return try {
-        Settings.System.getInt(context.contentResolver, Settings.System.SCREEN_BRIGHTNESS)
-    } catch (e: Settings.SettingNotFoundException) {
-        0
     }
 }
